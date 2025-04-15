@@ -81,7 +81,7 @@ fun! s:FetchBibItems()
     "   - james.bib
     "
     call execute(
-                \ '/\v^\s*bibliography\s*:/;/\v^(---|\s*\w+)/' .
+                \ '/\v^\s*bibliography\s*:/;/\v^(---|\s*(\w|-)+)/' .
                 \ 's/\v^\s+-\s+((\w|-|.|\/|\\)+)/' .
                 \ '\=add(l:bibfiles, submatch(1))/gn',
                 \ 'silent!'
@@ -95,7 +95,7 @@ fun! s:FetchBibItems()
                     \ l:bibkeys,
                     \ s:MatchFile(
                         \ l:bibfile,
-                        \ '^\s*@\w\+{\zs\w\+'
+                        \ '^\s*@\w\+{\zs\(\w\|-\)\+'
                         \ )
                     \ )
     endfor
@@ -159,7 +159,7 @@ endfun
 fun! s:FetchRefLabels()
     let l:reflist = []
     call execute(
-                \ '%s/\v#\zs(eq:|fig:|lst:|sec:|tbl:)(\w|-)+/' .
+                \ '%s/\v#\zs(eq:|fig:|lst:|sec:|tbl:)(\w|-|:)+/' .
                 \ '\=add(l:reflist, submatch(0))/gn',
                 \  'silent!'
                 \ )
